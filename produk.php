@@ -4,8 +4,11 @@ class Produk
 {
     public $judul,
         $penulis,
-        $penerbit,
-        $harga;
+        $penerbit;
+
+    protected $diskon;
+
+    private $harga;
 
     public function __construct($judul = "Judul", $penulis = "Penulis", $penerbit = "Penerbit", $harga = 0)
     {
@@ -24,6 +27,11 @@ class Produk
     {
         $str = "{$this->judul} | {$this->getLabel()} (Rp. {$this->harga})";
         return $str;
+    }
+
+    public function getHarga()
+    {
+        return $this->harga - ($this->harga * $this->diskon / 100);
     }
 }
 
@@ -61,6 +69,11 @@ class Game extends Produk
         $str = "Game : " . parent::getInfoProduk() . " ~ {$this->waktuMain} Jam.";
         return $str;
     }
+
+    public function setDiskon($diskon = 0)
+    {
+        $this->diskon = $diskon;
+    }
 }
 
 $produk1 = new Komik("Naruto", "Masashi Kishimoto", "Shonen Jump", 30000, 100);
@@ -70,3 +83,7 @@ $produk2 = new Game("Uncharted", "Neil Druckmann", "Sony Computer", 250000, 50);
 echo $produk1->getInfoProduk();
 echo "<br>";
 echo $produk2->getInfoProduk();
+echo "<hr>";
+
+$produk2->setDiskon(10);
+echo $produk2->getHarga();
